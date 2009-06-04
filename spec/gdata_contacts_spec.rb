@@ -1,6 +1,20 @@
 dir = File.dirname(__FILE__)
 require File.expand_path(dir + '/spec_helper')
 
+include GData
+
+describe Contact do
+  it "should have a name" do
+    name = "Diego Carrion"
+    Contact.new(:name => name).name.should eql(name)  
+  end
+  
+  it "should have an email" do
+    email = "rails@ownage.com"
+    Contact.new(:email => email).email.should eql(email)  
+  end
+end
+
 describe GdataContacts do
   include GdataContacts
   
@@ -64,7 +78,7 @@ describe GdataContacts do
       contacts = []
       [{:email=>"jvhlf@yahoo.com.br", :name=>nil}, 
        {:email=>"sammer.valgas@gmail.com", :name=>nil}, 
-       {:name=>"Naat"}].each { |map| contacts << GData::Contact.new(map) }
+       {:name=>"Naat"}].each { |map| contacts << Contact.new(map) }
       @contacts.each { |contact| contact.to_json.should eql(contacts[@contacts.index contact].to_json) }
     end
   end
