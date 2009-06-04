@@ -1,7 +1,7 @@
 module GData
-  attr_reader :name, :email
-
   class Contact
+    attr_reader :name, :email
+  
     def initialize(opts)
       @email = opts[:email]
       @name = opts[:name]
