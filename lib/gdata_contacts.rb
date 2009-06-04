@@ -9,8 +9,8 @@ module GdataContacts
     elsif params[:token] and session[:token].nil?
       @client.authsub_token = params[:token]
       session[:token] = @client.auth_handler.upgrade
-      @client.authsub_token = session[:token]
     end
+    @client.authsub_token = session[:token] if session[:token]
     @contacts = @client.get("#{@client.authsub_scope}contacts/default/full?max-results=10000") unless session[:token].nil?
   end
 end

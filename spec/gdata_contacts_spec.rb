@@ -36,8 +36,8 @@ describe GdataContacts do
       @params[:token] = "fwefwefwef"
       @upgrade = stub(Object)
       @client.stub(:auth_handler).and_return(stub(Object, :upgrade => @upgrade))
-      @client.stub!(:authsub_token=)
       @client.stub!(:get)
+      @client.stub!(:authsub_token=)
     end
     
     it "should set it in the client" do
@@ -45,20 +45,23 @@ describe GdataContacts do
       fetch_contacts
     end
     
-    it "should upgrade the auth handler and se it in the session" do
+    it "should upgrade the auth handler and set it in the session" do
       fetch_contacts
       @session[:token].should eql(@upgrade)
-    end
-    
-    it "should set the session with the upgraded auth handler" do
-      @client.should_receive(:authsub_token=).with(@upgrade)
-      fetch_contacts
     end
   end
   
   context "with token in session" do
     before :each do
-      @session[:token] = "fwegfwefwe"
+      @client.stub!(:get)
+      @client.stub!(:authsub_token=)
+      @token = "fwegfwef"
+      @session[:token] = @token
+    end
+    
+    it "should set it as the client authsub_token" do
+      @client.should_receive(:authsub_token=).with(@token)
+      fetch_contacts
     end
     
     it "should fetch 10000 contacts to @contacts" do
