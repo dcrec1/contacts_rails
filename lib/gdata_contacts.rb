@@ -1,3 +1,16 @@
+module GData
+  class Contact
+    def initialize(opts)
+      @email = opts[:email]
+      @name = opts[:name]
+    end
+    
+    def to_json
+      "{'email' => '#{@email}', 'name' => '#{@name}'}"
+    end
+  end
+end
+
 module GdataContacts
   def fetch_contacts
     @client = GData::Client::Contacts.new
@@ -11,6 +24,16 @@ module GdataContacts
       session[:token] = @client.auth_handler.upgrade
     end
     @client.authsub_token = session[:token] if session[:token]
-    @contacts = @client.get("#{@client.authsub_scope}contacts/default/full?max-results=10000") unless session[:token].nil?
+
+    unless session[:token].nil?
+      @contacts = []
+      @client.get("#{@client.authsub_scope}contacts/default/full?max-results=10000").to_xml.elements.each('entry') do |entry|
+        opts = {:name => entry.elements['title'].text}
+        entry.elements.each('gd:email') do |email|
+          opts[:email] = email.attribute('address').value if email.attribute('primary')
+        end
+        @contacts.push GData::Contact.new(opts)
+      end
+    end
   end
 end

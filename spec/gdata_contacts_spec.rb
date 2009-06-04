@@ -1,19 +1,16 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+dir = File.dirname(__FILE__)
+require File.expand_path(dir + '/spec_helper')
 
 describe GdataContacts do
   include GdataContacts
   
   before :each do
-    @session = {}
-    stub!(:session).and_return(@session)
-    @params = {}
-    stub!(:params).and_return(@params)
-    @client = GData::Client::Contacts.new
+    stub!(:session).and_return(@session = {})
+    stub!(:params).and_return(@params = {})
+    stub!(:action_name).and_return(@action_name = "show")
+    stub!(:url_for).with(:action => @action_name).and_return(@next_url = "afsfafa")
+    @client = mock(GData::Client::Contacts, :null_object => true)
     GData::Client::Contacts.stub(:new).and_return(@client)
-    @action_name = "show"
-    stub!(:action_name).and_return(@action_name)
-    @next_url = "afsfafa"
-    stub!(:url_for).with(:action => @action_name).and_return(@next_url)
   end
   
   context "when no token exists" do
@@ -36,8 +33,6 @@ describe GdataContacts do
       @params[:token] = "fwefwefwef"
       @upgrade = stub(Object)
       @client.stub(:auth_handler).and_return(stub(Object, :upgrade => @upgrade))
-      @client.stub!(:get)
-      @client.stub!(:authsub_token=)
     end
     
     it "should set it in the client" do
@@ -53,8 +48,6 @@ describe GdataContacts do
   
   context "with token in session" do
     before :each do
-      @client.stub!(:get)
-      @client.stub!(:authsub_token=)
       @token = "fwegfwef"
       @session[:token] = @token
     end
@@ -65,10 +58,14 @@ describe GdataContacts do
     end
     
     it "should fetch 10000 contacts to @contacts" do
-      contacts = [1, 2, 3]
-      @client.stub(:get).with(@client.authsub_scope + 'contacts/default/full?max-results=10000').and_return(contacts)
+      gdata = mock(Object, :to_xml => REXML::Document.new(File.open(dir + "/data.xml")).root)
+      @client.stub(:get).with(@client.authsub_scope + 'contacts/default/full?max-results=10000').and_return(gdata)
       fetch_contacts
-      @contacts.should eql(contacts)
+      contacts = []
+      [{:email=>"jvhlf@yahoo.com.br", :name=>nil}, 
+       {:email=>"sammer.valgas@gmail.com", :name=>nil}, 
+       {:name=>"Naat"}].each { |map| contacts << GData::Contact.new(map) }
+      @contacts.each { |contact| contact.to_json.should eql(contacts[@contacts.index contact].to_json) }
     end
   end
 end
