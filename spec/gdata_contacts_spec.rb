@@ -29,14 +29,14 @@ describe GdataContacts do
     it "should configure auth url assuming current action as next_url, security false and session true" do
       stub!(:redirect_to)
       @client.should_receive(:authsub_url).with(@next_url, false, true)
-      fetch_contacts
+      fetch_google_contacts
     end
     
     it "should redirect to authsub url" do
       url = "ger gre gerg erger gege"
       @client.stub!(:authsub_url).and_return(url)
       self.should_receive(:redirect_to).with(url)
-      fetch_contacts
+      fetch_google_contacts
     end
   end
   
@@ -49,11 +49,11 @@ describe GdataContacts do
     
     it "should set it in the client" do
       @client.should_receive(:authsub_token=).with(@params[:token])
-      fetch_contacts
+      fetch_google_contacts
     end
     
     it "should upgrade the auth handler and set it in the session" do
-      fetch_contacts
+      fetch_google_contacts
       @session[:token].should eql(@upgrade)
     end
   end
@@ -66,13 +66,13 @@ describe GdataContacts do
     
     it "should set it as the client authsub_token" do
       @client.should_receive(:authsub_token=).with(@token)
-      fetch_contacts
+      fetch_google_contacts
     end
     
     it "should fetch 10000 contacts to @contacts" do
       gdata = mock(Object, :to_xml => REXML::Document.new(File.open(dir + "/data.xml")).root)
       @client.stub(:get).with(@client.authsub_scope + 'contacts/default/full?max-results=10000').and_return(gdata)
-      fetch_contacts
+      fetch_google_contacts
       contacts = []
       [{:email=>"jvhlf@yahoo.com.br", :name=>nil}, 
        {:email=>"sammer.valgas@gmail.com", :name=>nil}, 

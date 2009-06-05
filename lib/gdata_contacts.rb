@@ -14,7 +14,7 @@ module GData
 end
 
 module GdataContacts
-  def fetch_contacts
+  def fetch_google_contacts
     @client = GData::Client::Contacts.new
 
     if params[:token].nil? and session[:token].nil?
