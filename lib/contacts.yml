@@ -1,0 +1,35 @@
+stage:
+  windows_live:
+    appid: 
+    secret: 
+    security_algorithm: wsignin1.0
+    return_url: http://stage.myapp.com/contacts/callback/windows_live
+    policy_url: http://stage.myapp.com/policy.html
+
+  yahoo:
+    appid: 
+    secret: 
+
+production:
+  windows_live:
+    appid: 
+    secret: 
+    security_algorithm: wsignin1.0
+    return_url: http://www.myapp.com/contacts/callback/windows_live
+    policy_url: http://www.myapp.com/policy.html
+
+  yahoo:
+    appid: 
+    secret: 
+    
+test:
+  windows_live:
+      appid: 
+      secret: 
+      security_algorithm: wsignin1.0
+      return_url: http://stage.myapp.com/contacts/callback/windows_live
+      policy_url: http://stage.myapp.com/policy.html
+
+  yahoo:
+    appid: 
+    secret: 
