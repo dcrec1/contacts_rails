@@ -10,6 +10,7 @@ describe Contacts::Rails do
     stub!(:params).and_return(@params = {})
     stub!(:url_for).with(:action => @action_name).and_return(@next_url = "afsfafa")
     stub!(:request).and_return(@request = mock(Object))
+    stub!(:render)
   end
   
   context "importing Google contacts" do
@@ -23,19 +24,28 @@ describe Contacts::Rails do
     
     context "with token in params" do
       it "should upgrade it and set it in the session" do
+        Contacts::Google.stub!(:new).and_return(mock(Object, :contacts => nil))
         @params[:token] = "fwefwefwe"
         import_google_contacts
         @session[:token].should eql(Contacts::Google.session_token(@params[:token]))
       end
     end
     
-    context "with token in session" do    
-      it "should fetch contacts to @contacts" do
+    context "with token in session" do
+      before :each do
         @session[:token] = "fwegfwef"
-        google = mock(Object, :contacts => "fwegfwegegw")
-        Contacts::Google.stub(:new).with("default", @session[:token]).and_return(google)
+        @google = mock(Object, :contacts => "fwegfwegegw")
+        Contacts::Google.stub(:new).with("default", @session[:token]).and_return(@google)
+      end
+      
+      it "should fetch contacts to @contacts" do
         import_google_contacts
-        @contacts.should eql(google.contacts)
+        @contacts.should eql(@google.contacts)
+      end
+      
+      it "should render import" do
+        self.should_receive(:render).with("import")
+        import_google_contacts
       end
     end
   end
@@ -53,12 +63,24 @@ describe Contacts::Rails do
       import_live_contacts
     end
     
-    it "should fetch contacts to @contacts when POST body exists" do
-      Contacts::WindowsLive.stub!(:new).and_return(@wl)
-      @request.stub!(:raw_post).and_return(raw_post = "fwefwefw")
-      @wl.should_receive(:contacts).with(raw_post).and_return(contacts = [1, 2, 3])
-      import_live_contacts
-      @contacts.should eql(contacts)
+    context "when POST body exists" do
+      before :each do
+        Contacts::WindowsLive.stub!(:new).and_return(@wl)
+        @request.stub!(:raw_post).and_return(@raw_post = "fwefwefw")
+        @wl.stub!(:contacts)
+        stub!(:render)
+      end
+    
+      it "should fetch contacts to @contacts" do
+        @wl.should_receive(:contacts).with(@raw_post).and_return(contacts = [1, 2, 3])
+        import_live_contacts
+        @contacts.should eql(contacts)
+      end
+      
+      it "should render import" do
+        self.should_receive(:render).with("import")
+        import_live_contacts
+      end
     end
   end
 end

@@ -11,6 +11,7 @@ module Contacts
         redirect_to live.get_authentication_url
       else
         @contacts = live.contacts(post_body)
+        render "import"
       end
     end
     
@@ -19,10 +20,11 @@ module Contacts
       session_token = session[:token]
       if param_token.nil? and session_token.nil?    
         redirect_to Contacts::Google.authentication_url(url_for(:action => action_name), :session => true)
-      elsif param_token and session_token.nil?
-        session[:token] = Contacts::Google.session_token(param_token)
+      else 
+        session[:token] = Contacts::Google.session_token(param_token) if session_token.nil?
+        @contacts = Contacts::Google.new("default", session[:token]).contacts
+        render "import"
       end
-      @contacts = Contacts::Google.new("default", session[:token]).contacts unless session[:token].nil?
     end
   end
 end
