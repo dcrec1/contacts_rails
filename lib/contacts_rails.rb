@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/contacts/yahoo')
 
 module Contacts
   module Rails
-    def fetch_live_contacts
+    def import_live_contacts
       live = Contacts::WindowsLive.new
       post_body = request.raw_post
       if post_body.empty?
@@ -14,7 +14,7 @@ module Contacts
       end
     end
     
-    def fetch_google_contacts
+    def import_google_contacts
       param_token = params[:token]
       session_token = session[:token]
       if param_token.nil? and session_token.nil?    
