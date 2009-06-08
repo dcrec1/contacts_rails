@@ -1,3 +1,11 @@
+h2. ABOUT:
+
+Contact::Rails has several actions that render an 'import' template (import.html.erb fe) with an array of contacts as @contacts.
+
+This actions are called like import_<service>_contacts (import_google_contacts fe) and they take care of redirecting your users to their accounts for login purpose and then to your templates with the contacts list.
+
+The plugin is built in front of a fork from Hugo Baruna from the contacts gem, with some enhancements.
+
 h2. INSTALLATION:
 
 <pre><code>script/plugin install git://github.com/dcrec1/contacts_rails.git</code></pre>
@@ -7,6 +15,16 @@ h2. USAGE:
 <pre><code>describe HomeController do
   include Contacts::Import
 end</code></pre>
+
+Then configure config/contacts.yml. You can find a demo file in vendor/plugins/contacts_rails/lib/contacts.yml.
+
+Now you are ready to define routes like this:
+
+<pre><code>map.import_google '/home/import/google',   :controller => "home", :action => 'import_google_contacts'
+map.import_live   '/home/import/live',     :controller => "home", :action => 'import_live_contacts'
+map.import_yahoo  '/home/import/yahoo',    :controller => "home", :action => 'import_yahoo_contacts'</code></pre>
+
+Don't forget now to create the 'import' template.
 
 h2. LICENSE:
 
