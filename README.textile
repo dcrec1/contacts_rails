@@ -12,7 +12,7 @@ h2. INSTALLATION:
 
 h2. USAGE:
 
-<pre><code>describe HomeController do
+<pre><code>class HomeController < ApplicationController do
   include Contacts::Import
 end</code></pre>
 
