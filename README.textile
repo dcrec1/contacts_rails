@@ -18,7 +18,7 @@ end</code></pre>
 
 Then configure config/contacts.yml. You can find a demo file in vendor/plugins/contacts_rails/lib/contacts.yml.
 
-Now you are ready to define routes like this:
+Now you are ready to define routes like these:
 
 <pre><code>map.import_google '/home/import/google',   :controller => "home", :action => 'import_google_contacts'
 map.import_live   '/home/import/live',     :controller => "home", :action => 'import_live_contacts'
