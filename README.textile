@@ -1,3 +1,13 @@
+h2. INSTALLATION:
+
+<pre><code>script/plugin install git://github.com/dcrec1/contacts_rails.git</code></pre>
+
+h2. USAGE:
+
+<pre><code>describe HomeController do
+  include Contacts::Import
+end</code></pre>
+
 h2. LICENSE:
 
 (The MIT License)
