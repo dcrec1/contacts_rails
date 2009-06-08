@@ -6,7 +6,6 @@ describe Contacts::Rails do
   
   before :each do
     stub!(:action_name).and_return(@action_name = "show")
-    stub!(:session).and_return(@session = {})
     stub!(:params).and_return(@params = {})
     stub!(:url_for).with(:action => @action_name).and_return(@next_url = "afsfafa")
     stub!(:request).and_return(@request = mock(Object))
@@ -23,19 +22,10 @@ describe Contacts::Rails do
     end
     
     context "with token in params" do
-      it "should upgrade it and set it in the session" do
-        Contacts::Google.stub!(:new).and_return(mock(Object, :contacts => nil))
-        @params[:token] = "fwefwefwe"
-        import_google_contacts
-        @session[:token].should eql(Contacts::Google.session_token(@params[:token]))
-      end
-    end
-    
-    context "with token in session" do
       before :each do
-        @session[:token] = "fwegfwef"
+        @params[:token] = "f2fwefwe"
         @google = mock(Object, :contacts => "fwegfwegegw")
-        Contacts::Google.stub(:new).with("default", @session[:token]).and_return(@google)
+        Contacts::Google.stub(:new).with("default", @params[:token]).and_return(@google)
       end
       
       it "should fetch contacts to @contacts" do

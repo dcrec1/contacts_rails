@@ -60,11 +60,6 @@ module Contacts
     # * <tt>:session</tt> -- boolean indicating if the token can be exchanged for a session token
     #   (default: false)
     def self.authentication_url(target=nil, options = {})
-      if Contacts.inside_rails_app?
-        confs = YAML.load_file("#{RAILS_ROOT}/config/contacts.yml")[Rails.env]['google']
-        target = confs['return_url']
-      end
-
       params = { :next => target,
                  :scope => AuthScope,
                  :secure => false,
