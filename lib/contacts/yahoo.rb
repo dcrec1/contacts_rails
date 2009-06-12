@@ -4,7 +4,7 @@ require 'rubygems'
 require 'hpricot'
 require 'net/https'
 require 'uri'
-require 'json'
+require 'crack'
 require 'yaml'
 
 module Contacts
@@ -216,7 +216,7 @@ module Contacts
     # * json <String>:: A String the user's contacts ni JSON format
     #
     def self.parse_contacts(json)
-      people = JSON.parse(json)
+      people = Crack::JSON.parse(json)
       contacts = []
 
       people['contacts'].each do |contact|

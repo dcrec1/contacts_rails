@@ -1,8 +1,8 @@
 dir = File.dirname(__FILE__)
 require File.expand_path(dir + '/spec_helper')
 
-describe Contacts::Rails do
-  include Contacts::Rails
+describe Contacts::Imports do
+  include Contacts::Imports
   
   before :each do
     stub!(:action_name).and_return(@action_name = "show")
@@ -42,7 +42,7 @@ describe Contacts::Rails do
   
   context "importing Live contacts" do
     before :each do
-      file = YAML.load_file(File.dirname(__FILE__) + '/feeds/contacts.yml')
+      file = YAML.load_file(dir + '/feeds/contacts.yml')
       YAML.stub(:load_file).and_return(file)
       @wl = Contacts::WindowsLive.new
     end
@@ -71,6 +71,16 @@ describe Contacts::Rails do
         self.should_receive(:render).with("import")
         import_live_contacts
       end
+    end
+  end
+  
+  context "importing from a CVS file" do
+    it "deve devolver os registros como um array de contatos" do
+      @params[:cvs_file] = File.open(dir + '/contacts.cvs')
+      #import_cvs_contacts
+      file_content = File.open(dir + '/contacts.cvs').read
+      
+      #@contacts.should eql(
     end
   end
 end
