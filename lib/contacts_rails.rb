@@ -24,5 +24,26 @@ module Contacts
         render "import"
       end
     end
+    
+    def import_cvs_contacts
+      lines = params[:cvs_file].read.lines
+      header = split(lines.first).map { |item| item.strip }
+      @contacts = []
+      lines.each do |line|
+        next if line == lines.first
+        items = split(line)
+        @contacts << [get(items, header, :name), get(items, header, :email)]
+      end
+      @contacts
+    end
+    
+    private
+      def get(collection, header, key)
+        collection[header.index(key.to_s)].strip
+      end
+      
+      def split(text)
+        text.split(",")
+      end
   end
 end
