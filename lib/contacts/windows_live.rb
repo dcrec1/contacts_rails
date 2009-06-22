@@ -1,10 +1,5 @@
 require File.dirname(__FILE__) + '/../contacts'
 require File.dirname(__FILE__) + '/../../vendor/windowslivelogin'
-require 'net/https'
-require 'uri'
-require 'rubygems'
-require 'hpricot'
-require 'yaml'
 
 module Contacts
   # = How I can fetch Windows Live Contacts?

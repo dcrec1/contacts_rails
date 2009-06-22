@@ -1,11 +1,4 @@
 require File.dirname(__FILE__) + '/../contacts'
-require 'md5'
-require 'rubygems'
-require 'hpricot'
-require 'net/https'
-require 'uri'
-require 'crack'
-require 'yaml'
 
 module Contacts
   # = How I can fetch Yahoo Contacts?

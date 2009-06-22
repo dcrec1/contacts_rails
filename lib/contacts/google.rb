@@ -1,13 +1,3 @@
-require 'cgi'
-require 'net/http'
-require 'net/https'
-require 'rubygems'
-require 'hpricot'
-require 'time'
-require 'zlib'
-require 'stringio'
-require 'yaml'
-
 module Contacts
   # == Fetching Google Contacts
   # 

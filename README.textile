@@ -4,6 +4,11 @@ Contact::Rails helps you to import a list of Google, Yahoo Windows Live contacts
 
 Contact::Rails is built in front of a contacts gem fork created by Hugo Barauna, with some enhancements.
 
+h2. REQUIREMENTS
+
+zlib
+crack
+
 h2. INSTALLATION:
 
 <pre><code>script/plugin install git://github.com/dcrec1/contacts_rails.git</code></pre>
