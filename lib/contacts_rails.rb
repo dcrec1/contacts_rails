@@ -14,7 +14,7 @@ module Contacts
         render "import"
       end
     end
-    
+
     def import_google_contacts
       param_token = params[:token]
       if param_token.nil?
@@ -24,7 +24,7 @@ module Contacts
         render "import"
       end
     end
-    
+
     def import_cvs_contacts
       lines = params[:cvs_file].read.lines
       header = split(lines.first).map { |item| item.strip }
@@ -36,14 +36,27 @@ module Contacts
       end
       @contacts
     end
-    
+
+    def import_yahoo_contacts
+      param_token = params[:token]
+      yahoo = Contacts::Yahoo.new
+
+      if param_token.nil?
+        redirect_to yahoo.get_authentication_url
+      else
+        @contacts = yahoo.contacts(url_for(:action => action_name))
+        render "import"
+      end
+    end
+
     private
       def get(collection, header, key)
         collection[header.index(key.to_s)].strip
       end
-      
+
       def split(text)
         text.split(",")
       end
   end
 end
+
