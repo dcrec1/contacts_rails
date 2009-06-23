@@ -99,19 +99,34 @@ describe Contacts::Imports do
   context "importing Yahoo Contacts" do
 
     before :each do
-      @request.stub!(:request_uri)
-      @yahoo = mock(Object, :contacts => "teste")
+      @url = 'http://localhost:3000/home/import/yahoo'
+      @yahoo = mock(Object, :contacts => "['Fitzgerald', 'fubar@gmail.com', 'fubar@example.com']",
+                            :get_authentication_url => @url)
       Contacts::Yahoo.stub(:new).and_return(@yahoo)
     end
 
-    it "should fetch contacts to @contacts" do
-      import_yahoo_contacts
-      @contacts.should eql(@yahoo.contacts)
+    context "when no appid exists" do
+      it "should redirect to authentication url" do
+        self.should_receive(:redirect_to).with(@url)
+        import_yahoo_contacts
+      end
     end
+    context "when appid exist in params" do
 
-    it "should render import" do
-      self.should_receive(:render).with("import")
-      import_yahoo_contacts
+      before :each do
+        @request.stub!(:request_uri)
+        @params[:appid] = '123456'
+      end
+
+      it "should fetch contacts to @contacts" do
+        import_yahoo_contacts
+        @contacts.should eql(@yahoo.contacts)
+      end
+
+      it "should render import" do
+        self.should_receive(:render).with("import")
+        import_yahoo_contacts
+      end
     end
   end
 end
