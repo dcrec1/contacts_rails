@@ -38,15 +38,10 @@ module Contacts
     end
 
     def import_yahoo_contacts
-      param_token = params[:token]
       yahoo = Contacts::Yahoo.new
 
-      if param_token.nil?
-        redirect_to yahoo.get_authentication_url
-      else
-        @contacts = yahoo.contacts(url_for(:action => action_name))
-        render "import"
-      end
+      @contacts = yahoo.contacts(request.request_uri)
+      render "import"
     end
 
     private
