@@ -1,4 +1,16 @@
-stage:
+development:
+  windows_live:
+    appid: 
+    secret: 
+    security_algorithm: wsignin1.0
+    return_url: http://development.myapp.com/contacts/callback/windows_live
+    policy_url: http://development.myapp.com/policy.html
+
+  yahoo:
+    appid: 
+    secret:
+
+staging:
   windows_live:
     appid: 
     secret: 
