@@ -8,6 +8,7 @@ h2. REQUIREMENTS
 
 zlib
 crack
+hpricot
 
 h2. INSTALLATION:
 
@@ -16,7 +17,7 @@ h2. INSTALLATION:
 h2. USAGE:
 
 <pre><code>class HomeController < ApplicationController do
-  include Contacts::Import
+  include Contacts::Imports
 end</code></pre>
 
 Then configure config/contacts.yml. You can find a demo file in vendor/plugins/contacts_rails/lib/contacts.yml.

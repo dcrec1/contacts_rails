@@ -1,3 +1,4 @@
+require 'hpricot'
 require File.expand_path(File.dirname(__FILE__) + '/contacts/google')
 require File.expand_path(File.dirname(__FILE__) + '/contacts/windows_live')
 require File.expand_path(File.dirname(__FILE__) + '/contacts/yahoo')
