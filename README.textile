@@ -26,7 +26,8 @@ Now you are ready to define routes like these:
 
 <pre><code>map.import_google '/home/import/google',   :controller => "home", :action => 'import_google_contacts'
 map.import_live   '/home/import/live',     :controller => "home", :action => 'import_live_contacts'
-map.import_yahoo  '/home/import/yahoo',    :controller => "home", :action => 'import_yahoo_contacts'</code></pre>
+map.import_yahoo  '/home/import/yahoo',    :controller => "home", :action => 'import_yahoo_contacts'
+map.import_cvs    '/home/import/cvs',      :controller => "home", :action => 'import_cvs_contacts'</code></pre>
 
 Don't forget now to create the 'import' template.
 

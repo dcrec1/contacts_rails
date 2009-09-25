@@ -83,7 +83,7 @@ describe Contacts::Imports do
       File.open(DIR + '/contacts.cvs')
     end
   
-    it "should read a file passed as cvs_file and return a list of contacts" do
+    it "should read a file passed as cvs_file and return a list of contacts to @contacts" do
       @params[:cvs_file] = file
       import_cvs_contacts
       lines = file.each_line.to_a
@@ -93,6 +93,12 @@ describe Contacts::Imports do
         contact[1].should eql(value(lines, i, 0))
         i = i + 1
       end
+    end
+    
+    it "should render import" do
+      @params[:cvs_file] = file
+      self.should_receive(:render).with("import")
+      import_cvs_contacts
     end
   end
 end

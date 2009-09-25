@@ -35,7 +35,7 @@ module Contacts
         items = split(line)
         @contacts << [get(items, header, :name), get(items, header, :email)]
       end
-      @contacts
+      render "import"
     end
     
     private
