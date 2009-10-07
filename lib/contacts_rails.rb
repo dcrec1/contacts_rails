@@ -26,8 +26,8 @@ module Contacts
       end
     end
 
-    def import_cvs_contacts
-      lines = params[:cvs_file].read.lines
+    def import_csv_contacts
+      lines = params[:csv_file].read.lines
       header = split(lines.first).map { |item| item.strip }
       @contacts = []
       lines.each do |line|

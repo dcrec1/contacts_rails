@@ -74,18 +74,18 @@ describe Contacts::Imports do
     end
   end
 
-  context "importing from a CVS file" do
+  context "importing from a CSV file" do
     def value(lines, line_number, position)
       lines[line_number].split(",")[position].strip
     end
 
     def file
-      File.open(DIR + '/contacts.cvs')
+      File.open(DIR + '/contacts.csv')
     end
   
-    it "should read a file passed as cvs_file and return a list of contacts to @contacts" do
-      @params[:cvs_file] = file
-      import_cvs_contacts
+    it "should read a file passed as csv_file and return a list of contacts to @contacts" do
+      @params[:csv_file] = file
+      import_csv_contacts
       lines = file.each_line.to_a
       i = 1
       @contacts.each do |contact|
@@ -96,9 +96,9 @@ describe Contacts::Imports do
     end
     
     it "should render import" do
-      @params[:cvs_file] = file
+      @params[:csv_file] = file
       self.should_receive(:render).with("import")
-      import_cvs_contacts
+      import_csv_contacts
     end
   end
 
